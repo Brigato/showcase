@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
+
+import VolumeDown from '@mui/icons-material/VolumeDown';
+import VolumeUp from '@mui/icons-material/VolumeUp';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import './Timer.css';
@@ -12,6 +18,11 @@ export default function Timer({ time }) {
   const [second, setsecond] = useState(0);
   const [running, setRunning] = useState(false);
   const [blink, setBlink] = useState(false);
+  const [value, setValue] = useState(30);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     if (running) {
@@ -56,12 +67,19 @@ export default function Timer({ time }) {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
-        <Button onClick={startStop} variant='contained'>
-          {running ? 'Stop' : 'Start'}
-        </Button>
-        <Button onClick={resetTimer} variant='contained'>
-          Reset
-        </Button>
+        <Box sx={{ width: 200 }}>
+          <Button onClick={startStop} variant='contained'>
+            {running ? 'Stop' : 'Start'}
+          </Button>
+          <Button onClick={resetTimer} variant='contained'>
+            Reset
+          </Button>
+          <Stack spacing={2} direction='row' sx={{ mt: 3 }} alignItems='center'>
+            <VolumeDown />
+            <Slider aria-label='Volume' value={value} onChange={handleChange} />
+            <VolumeUp />
+          </Stack>
+        </Box>
       </CardActions>
     </Card>
   );
